@@ -1,0 +1,55 @@
+.paginaPdf {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+.paginaPdf h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+
+}
+.paginaPdf p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+    /** formulario **/
+.formPdf {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    border-radius: 10px;
+    background-color: #cccccc4d;
+    overflow: hidden;
+}
+.formPdf label {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.formPdf textarea {
+    width: 60%;
+    height: 70px;
+}
+
+.formPdf label span {
+    color: rgb(55, 100, 167);
+    margin: 6px 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.formPdf input[type=submit] {
+    margin: 20px 0;
+}
+
+.formPdf .error {
+    color: rgba(187, 4, 4, 0.548);
+}
