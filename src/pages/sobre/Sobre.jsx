@@ -16,7 +16,7 @@ const Sobre = () => {
             </section>
 
             <section>
-                <h1>Instruções de usu</h1>
+                <h1>Instruções de uso</h1>
                 <p>
                     "Para adicionar um novo parágrafo de texto, é necessário clicar no botão 'Adicionar Texto'. 
                     Isso abrirá uma nova caixa de texto onde você poderá digitar. 
