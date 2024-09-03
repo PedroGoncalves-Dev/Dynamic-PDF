@@ -25,6 +25,8 @@ const GeradorPdf = () => {
     });
 
     const [pdfDados, setPdfDados] = useState([]); // deixo como array vazio para receber todos os cont.
+    const [loading, setLoading] = useState(false)
+    const [erro, setErro] = useState()
 
     const { fields, append } = useFieldArray({
         control,
@@ -49,7 +51,7 @@ const GeradorPdf = () => {
 
    
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const novasEntradas = data.conteudo.map((item) => {
             const reader = new FileReader();
 
@@ -69,6 +71,34 @@ const GeradorPdf = () => {
         Promise.all(novasEntradas).then((result) => {
             setPdfDados(result);
         });
+
+
+        // aqui estou enviado o pdf para api
+        setLoading(true) //inicio um estado de loading
+        try {
+            const res = await fetch('enderece da api', {
+                method: "POST",
+                headers: {
+                    "Content-type" : "application/json"
+                },
+                body: JSON.stringify(pdfDados)
+            })
+
+            const resDados = await res.json()
+
+            if(resDados.ok) {
+                console.log('PDF enviado para api com sucesso')
+            } else {
+                console.log('Erro ao enviar o PDF para api')
+                // setErro("Erro de req") como nao ira enviar mesmo para uma api deixei comentado
+            }
+            
+        } catch (error) {
+            console.log(error.message)
+            
+        } finally {
+            setLoading(false)
+        }
     };
 
     return (
@@ -117,7 +147,20 @@ const GeradorPdf = () => {
                         Adicionar texto e imagem
                     </button>
 
-                    <input type="submit" value="Gerar PDF" />
+                    {/* checo laoding pro usu nao ficar apertadno o botao enquanto esta enviando para api */}
+                    {!loading ? (
+
+                        <input type="submit" value="Gerar PDF" />
+                        
+                    ) : (
+
+                        <Spin />
+
+                    )}
+
+                    {erro &&
+                        <p className={styles.erro}>Falha ao enviar PDF para api</p>
+                        }
                 </div>
             </form>
 

@@ -21,7 +21,7 @@ const Cabecalho = () => {
                         <NavLink to='/'>
                             <li>Home</li>
                         </NavLink>
-                        <NavLink to='/criarPdf'>
+                        <NavLink to='/'>
                             <li>Criar PDF</li>
                         </NavLink>
                     </ul>
