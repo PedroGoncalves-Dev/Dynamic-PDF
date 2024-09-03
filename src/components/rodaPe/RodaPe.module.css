@@ -1,0 +1,23 @@
+.rodaPe {
+    height: 200px;
+    background: rgb(0, 32, 0);
+    display: flex;
+    justify-content: center;   
+    align-items: center;
+}
+
+.conteudoRodaPe {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    color: #fff;
+    font-size: 0.7rem;
+    box-sizing: border-box;
+}
+
+.conteudoRodaPe div {
+    margin: 20px 0;
+
+}
