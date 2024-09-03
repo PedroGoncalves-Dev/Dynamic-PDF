@@ -21,3 +21,25 @@
     margin: 20px 0;
 
 }
+.conteudoRodaPe  h1 {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.conteudoRodaPe div ul {
+    display: flex;
+}
+
+.conteudoRodaPe div ul li {
+    padding: 0 5px;
+}
+.conteudoRodaPe div ul li a {
+    color: #fff;
+}
+.conteudoRodaPe div ul li svg:hover {
+    color: #a09f9f;
+    cursor: pointer;
+}

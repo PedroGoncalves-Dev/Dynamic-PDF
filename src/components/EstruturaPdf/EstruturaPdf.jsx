@@ -1,9 +1,18 @@
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image,Font } from '@react-pdf/renderer';
+
+
+Font.register({  //registrando a fonte nao usual Lobster
+    family: 'Lobster',
+    src: '../../../public/fonts/Lobster-Regular.ttf',
+  });
 
 // estilização para o PDF
 const styles = StyleSheet.create({
     page: {
         padding: 20,
+        fontFamily: "Lobster",
+        fontWeight: 400,
+        fontStyle: 'normal'
     },
     header: {
         fontSize: 18,
@@ -43,7 +52,10 @@ const PaginaComCabecalho = ({ texto, imagem }) => (
 const EstruturaPdf = ({ conteudo }) => (
     <Document>
         {conteudo.map((item, index) => (
-            <PaginaComCabecalho key={index} texto={item.texto} imagem={item.imagem} />
+            <>
+                <PaginaComCabecalho key={index} texto={item.texto}  />
+                <PaginaComCabecalho key={index} imagem={item.imagem} />
+            </>
         ))}
     </Document>
 );

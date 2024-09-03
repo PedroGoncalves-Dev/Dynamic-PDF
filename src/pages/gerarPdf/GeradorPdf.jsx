@@ -37,8 +37,8 @@ const GeradorPdf = () => {
     const visualizarPdf = useRef(null)
 
 
-    //aqui estou monitorando o form toda vez que ele aumentar clikcando add texto imagem, o scroll desça
-    // automaticamente e tambem estou monitando quando clicka em gerar pdf ele vai automaticamente para visualizar pdf
+    // Monitorando o formulário: ao adicionar mais texto ou imagem, o scroll desce automaticamente.
+// Além disso, ao clicar em 'Gerar PDF', o scroll direciona automaticamente para a visualização do PDF
     useEffect(() => {
         if(ultimoItemRef.current) {
             ultimoItemRef.current.scrollIntoView({ behavior: 'smooth'})
@@ -115,6 +115,7 @@ const GeradorPdf = () => {
                             <span>Texto:</span>
 
                             <textarea
+                                placeholder='Adicione o conteúdo que você deseja incluir no PDF'
                                 {...register(`conteudo.${index}.textoPdf`, { required: 'Digite um texto' })}
                             />
 
@@ -128,8 +129,8 @@ const GeradorPdf = () => {
                         <label>
                             <span>Insira sua imagem:</span>
                         </label>
-                        <input
-                            type="file"
+
+                        <input type="file"
                             {...register(`conteudo.${index}.imgPdf`, { required: 'Insira uma imagem, por favor' })}
                         />
 
@@ -143,14 +144,16 @@ const GeradorPdf = () => {
                 <div className={styles.botoesForm}>
 
                     {/* botão para ir adicionando os conteúdos */}
-                    <button type="button" onClick={() => append({ textoPdf: '', imgPdf: null })}>
+                    <button type="button" onClick={() => append({ textoPdf: '', imgPdf: null })}
+                        title='Clique se quiser inserir mais texto e imagem'
+                        >
                         Adicionar texto e imagem
                     </button>
 
                     {/* checo laoding pro usu nao ficar apertadno o botao enquanto esta enviando para api */}
                     {!loading ? (
 
-                        <input type="submit" value="Gerar PDF" />
+                        <input type="submit" value="Gerar PDF" title='Clique para gerar o pdf e envia-lo para api' />
                         
                     ) : (
 
