@@ -34,7 +34,7 @@ Este guia irá te orientar sobre como configurar e iniciar o projeto em sua máq
 ## Objetivo da aplicação
 "A aplicação foi desenvolvida para gerar um PDF com as informações inseridas pelos usuários. Cada texto digitado em uma caixa de texto diferente é convertido em um parágrafo, sendo todos os parágrafos gerados na mesma página do PDF. As imagens adicionadas, por sua vez, são renderizadas em páginas separadas." 
 
-## Instruções de usu
+## Instruções de uso
 "Para adicionar um novo parágrafo de texto, é necessário clicar no botão 'Adicionar Texto'. Isso abrirá uma nova caixa de texto onde você poderá digitar. O mesmo processo se aplica para adicionar imagens. Após inserir todo o conteúdo desejado, clique no botão 'Gerar PDF'. Um botão de download será exibido, e o PDF será aberto na página para visualização imediata, sem a necessidade de baixá-lo." 
 
 ## Tecnologias
