@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     content: {
-        fontSize: 12,
+        fontSize: 15,
         textAlign: 'justify',
     },
     image: {
@@ -33,31 +33,52 @@ const styles = StyleSheet.create({
     },
 });
 
-// Componente para a página com o cabeçalho fixo
-const PaginaComCabecalho = ({ texto, imagem }) => (
+// Componente para a página com todos os textos juntos
+const PaginaComTexto = ({ textos }) => (
     <Page style={styles.page}>
         <View style={styles.header}>
             <Text>PDF dinâmico</Text>
             <Text>Teste técnico desen. Junior</Text>
         </View>
-
         <View style={styles.content}>
-            <Text>{texto}</Text>
+            {textos.map((texto, index) => (
+                <Text key={index}>• {texto}</Text>
+            ))}
+        </View>
+    </Page>
+);
+
+
+// Componente para a página com uma imagem
+const PaginaComImagem = ({ imagem }) => (
+    <Page style={styles.page}>
+        <View style={styles.header}>
+            <Text>PDF dinâmico</Text>
+            <Text>Teste técnico desen. Junior</Text>
+        </View>
+        <View style={styles.content}>
             {imagem && <Image style={styles.image} src={imagem} />}
         </View>
     </Page>
 );
 
 // Componente que estrutura o PDF
-const EstruturaPdf = ({ conteudo }) => (
-    <Document>
-        {conteudo.map((item, index) => (
-            <>
-                <PaginaComCabecalho key={index} texto={item.texto}  />
-                <PaginaComCabecalho key={index} imagem={item.imagem} />
-            </>
-        ))}
-    </Document>
-);
+const EstruturaPdf = ({ conteudo }) => {
+  
+    const textos = conteudo.map(item => item.texto).filter(texto => texto); // Pegando todos os textos
+    const imagens = conteudo.map(item => item.imagem).filter(imagem => imagem); // Pegando todas as imagens
 
+    return (
+
+        <Document>
+
+            <PaginaComTexto textos={textos} />
+                
+            {imagens.map((imagem, index) => (
+                <PaginaComImagem key={index} imagem={imagem} />
+            ))}
+   
+        </Document>
+    )
+}
 export default EstruturaPdf;

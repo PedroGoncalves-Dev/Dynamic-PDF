@@ -2,6 +2,11 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -33,6 +38,7 @@ time, mark, audio, video {
   	font-optical-sizing: auto;
 	font-weight: 600;
   	font-style: normal;
+	
 
 }
 /* HTML5 display-role reset for older browsers */
@@ -62,3 +68,23 @@ table {
 footer {
 	margin-top: 50px;
 }
+
+
+
+.app {
+    line-height: 1;
+    min-width: 640px; /* Define um limite mínimo de largura */
+	
+}
+
+
+main {
+    max-width: 1200px; 
+    min-width: 600px;    
+    margin: 0 auto; 
+}
+
+.active {
+	color: rgb(17, 204, 89) !important;
+}
+

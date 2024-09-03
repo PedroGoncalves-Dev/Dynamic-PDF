@@ -11,14 +11,14 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 // components
 import EstruturaPdf from '../../components/EstruturaPdf/EstruturaPdf';
-import { Content } from 'antd/es/layout/layout';
+
 
 
 const GeradorPdf = () => {
 
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
-            conteudo: [
+            conteudo:[
                 { textoPdf: '', imgPdf: null } // já inicio os valores vazios
             ]
         }
@@ -33,38 +33,58 @@ const GeradorPdf = () => {
         name: 'conteudo',
     });
 
+    
     const ultimoItemRef = useRef(null)
     const visualizarPdf = useRef(null)
 
+    
+
+
+     // Foca no topo da página ao carregar
+     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // Monitorando o formulário: ao adicionar mais texto ou imagem, o scroll desce automaticamente.
-// Além disso, ao clicar em 'Gerar PDF', o scroll direciona automaticamente para a visualização do PDF
+    // Além disso, ao clicar em 'Gerar PDF', o scroll direciona automaticamente para a visualização do PDF
     useEffect(() => {
-        if(ultimoItemRef.current) {
-            ultimoItemRef.current.scrollIntoView({ behavior: 'smooth'})
+        if (fields.length > 1 && ultimoItemRef.current) {
+            ultimoItemRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-        if (visualizarPdf.current) {
-            visualizarPdf.current.scrollIntoView({ behavior: 'smooth'})
+    }, [fields]);
+
+    useEffect(() => {
+        if (pdfDados.length > 0 && visualizarPdf.current) {
+            visualizarPdf.current.scrollIntoView({ behavior: 'smooth' });
         }
-    },[fields, pdfDados])
+    }, [pdfDados]);
 
 
    
 
     const onSubmit = async (data) => {
         const novasEntradas = data.conteudo.map((item) => {
+          
+        if (item.imgPdf && item.imgPdf.length > 0) {
             const reader = new FileReader();
 
             return new Promise((resolve) => {
                 reader.onloadend = () => {
                     resolve({
-                        texto: item.textoPdf,
+                        texto: item.textoPdf || '',  // Caso o item seja uma imagem, o texto será vazio
                         imagem: reader.result,
                     });
                 };
 
                 reader.readAsDataURL(item.imgPdf[0]); // estou convertendo a img para base64
             });
+        } else {
+            return Promise.resolve({
+                texto: item.textoPdf || '',
+                imagem: null,
+            });
+        }
+            
         });
 
         // aqui estou inserindo no array pdfDados todos os conteúdos que o usuário anexou
@@ -76,7 +96,7 @@ const GeradorPdf = () => {
         // aqui estou enviado o pdf para api
         setLoading(true) //inicio um estado de loading
         try {
-            const res = await fetch('enderece da api', {
+            const res = await fetch('endereço da api', {
                 method: "POST",
                 headers: {
                     "Content-type" : "application/json"
@@ -102,7 +122,7 @@ const GeradorPdf = () => {
     };
 
     return (
-        <div className={styles.paginaPdf}>
+        <div className={styles.paginaPdf} >
             <h1>Gerador de PDF dinâmico</h1>
             <p>Insira um texto e uma imagem para poder gerar seu PDF...</p>
 
@@ -110,32 +130,37 @@ const GeradorPdf = () => {
 
                 {/* aqui estarei fazendo um map, cada conteúdo inserido será salvo em um index */}
                 {fields.map((field, index) => (
-                    <div key={field.id} ref={index === fields.length -1 ? ultimoItemRef : null}>
-                        <label>
-                            <span>Texto:</span>
+                    <div key={field.id} ref={index === fields.length - 1 ? ultimoItemRef : null}>
 
-                            <textarea
-                                placeholder='Adicione o conteúdo que você deseja incluir no PDF'
-                                {...register(`conteudo.${index}.textoPdf`, { required: 'Digite um texto' })}
-                            />
-
-                        </label>
-
-                        {/* se o usuário não inserir um texto, transmito a msg para ele inserir */}
-                        {errors.conteudo?.[index]?.textoPdf && (
-                            <p className={styles.error}>{errors.conteudo[index].textoPdf.message}</p>
+                        {/* // aqui é cada texto adicionado */}
+                        {field.textoPdf !== undefined && (
+                            <label>
+                                <span>Texto:</span>
+                                <textarea
+                                    placeholder='Adicione o conteúdo que você deseja incluir no PDF'
+                                    {...register(`conteudo.${index}.textoPdf`, { required: 'Digite um texto' })}
+                                />
+                                
+                                {/* se o usuário não inserir um texto, transmito a msg para ele inserir */}
+                                {errors.conteudo?.[index]?.textoPdf && (
+                                    <p className={styles.error}>{errors.conteudo[index].textoPdf.message}</p>
+                                )}
+                            </label>
                         )}
 
-                        <label>
-                            <span>Insira sua imagem:</span>
-                        </label>
-
-                        <input type="file"
-                            {...register(`conteudo.${index}.imgPdf`, { required: 'Insira uma imagem, por favor' })}
-                        />
-
-                        {errors.conteudo?.[index]?.imgPdf && (
-                            <p className={styles.error}>{errors.conteudo[index].imgPdf.message}</p>
+                       
+                        {/* aqui é cada img adicionado */}
+                        {field.imgPdf !== undefined && (
+                            <label>
+                                <span>Insira sua imagem:</span>
+                                <input 
+                                    type="file"
+                                    {...register(`conteudo.${index}.imgPdf`, { required: 'Insira uma imagem, por favor' })}
+                                />
+                                {errors.conteudo?.[index]?.imgPdf && (
+                                    <p className={styles.error}>{errors.conteudo[index].imgPdf.message}</p>
+                                )}
+                            </label>
                         )}
 
                     </div>
@@ -144,10 +169,20 @@ const GeradorPdf = () => {
                 <div className={styles.botoesForm}>
 
                     {/* botão para ir adicionando os conteúdos */}
-                    <button type="button" onClick={() => append({ textoPdf: '', imgPdf: null })}
-                        title='Clique se quiser inserir mais texto e imagem'
-                        >
-                        Adicionar texto e imagem
+                    <button 
+                        type="button" 
+                        onClick={() => append({ textoPdf: '' })}
+                        title='Clique se quiser inserir mais texto'
+                    >
+                        Adicionar Texto
+                    </button>
+
+                    <button 
+                        type="button" 
+                        onClick={() => append({ imgPdf: [] })}
+                        title='Clique se quiser inserir uma imagem'
+                    >
+                        Adicionar Imagem
                     </button>
 
                     {/* checo laoding pro usu nao ficar apertadno o botao enquanto esta enviando para api */}

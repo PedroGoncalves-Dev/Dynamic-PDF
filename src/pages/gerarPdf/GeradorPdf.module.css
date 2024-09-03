@@ -28,6 +28,9 @@
     background-color: #cccccc4d;
     overflow: hidden;
 }
+.formPdf div {
+    width: 80%;
+}
 .formPdf label {
     display: flex;
     flex-direction: column;
@@ -75,6 +78,11 @@
     background-color: rgb(1, 87, 34);
     cursor: pointer;
     box-shadow: 0px 6px  6px 0px #4b4a4a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: normal;
+    word-wrap: break-word;
     transition:box-shadow 0.3s ease, background-color 0.5s ease;
 }
 
