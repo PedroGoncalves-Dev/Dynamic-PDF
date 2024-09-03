@@ -24,7 +24,7 @@ const GeradorPdf = () => {
         }
     });
 
-    const [pdfDados, setPdfDados] = useState([]); // deixo como array vazio para receber todos os cont.
+    const [pdfDados, setPdfDados] = useState([]); // deixo como array vazio para receber todos os conteudo.
     const [loading, setLoading] = useState(false)
     const [erro, setErro] = useState()
 
@@ -185,7 +185,7 @@ const GeradorPdf = () => {
                         Adicionar Imagem
                     </button>
 
-                    {/* checo laoding pro usu nao ficar apertadno o botao enquanto esta enviando para api */}
+                    {/* checo laoding pro 'usu' nao ficar apertando o botao enquanto esta enviando para api */}
                     {!loading ? (
 
                         <input type="submit" value="Gerar PDF" title='Clique para gerar o pdf e envia-lo para api' />
