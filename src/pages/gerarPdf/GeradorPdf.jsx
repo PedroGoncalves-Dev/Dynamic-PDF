@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './GeradorPdf.module.css';
+//ant design
+import { Spin,Button } from 'antd';
 
 // hook useform
 import { useFieldArray, useForm } from 'react-hook-form';
 
 // react-pdf/renderer
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 
 // components
 import EstruturaPdf from '../../components/EstruturaPdf/EstruturaPdf';
+import { Content } from 'antd/es/layout/layout';
+
 
 const GeradorPdf = () => {
+
     const { register, handleSubmit, control, formState: { errors } } = useForm({
         defaultValues: {
             conteudo: [
@@ -25,6 +30,24 @@ const GeradorPdf = () => {
         control,
         name: 'conteudo',
     });
+
+    const ultimoItemRef = useRef(null)
+    const visualizarPdf = useRef(null)
+
+
+    //aqui estou monitorando o form toda vez que ele aumentar clikcando add texto imagem, o scroll desça
+    // automaticamente e tambem estou monitando quando clicka em gerar pdf ele vai automaticamente para visualizar pdf
+    useEffect(() => {
+        if(ultimoItemRef.current) {
+            ultimoItemRef.current.scrollIntoView({ behavior: 'smooth'})
+        }
+        if (visualizarPdf.current) {
+            visualizarPdf.current.scrollIntoView({ behavior: 'smooth'})
+        }
+    },[fields, pdfDados])
+
+
+   
 
     const onSubmit = (data) => {
         const novasEntradas = data.conteudo.map((item) => {
@@ -54,14 +77,17 @@ const GeradorPdf = () => {
             <p>Insira um texto e uma imagem para poder gerar seu PDF...</p>
 
             <form className={styles.formPdf} onSubmit={handleSubmit(onSubmit)}>
+
                 {/* aqui estarei fazendo um map, cada conteúdo inserido será salvo em um index */}
                 {fields.map((field, index) => (
-                    <div key={field.id}>
+                    <div key={field.id} ref={index === fields.length -1 ? ultimoItemRef : null}>
                         <label>
                             <span>Texto:</span>
+
                             <textarea
                                 {...register(`conteudo.${index}.textoPdf`, { required: 'Digite um texto' })}
                             />
+
                         </label>
 
                         {/* se o usuário não inserir um texto, transmito a msg para ele inserir */}
@@ -81,24 +107,41 @@ const GeradorPdf = () => {
                             <p className={styles.error}>{errors.conteudo[index].imgPdf.message}</p>
                         )}
 
-                        {/* botão para ir adicionando os conteúdos */}
-                        <button type="button" onClick={() => append({ textoPdf: '', imgPdf: null })}>
-                            Adicionar texto e imagem
-                        </button>
                     </div>
                 ))}
 
-                <input type="submit" value="Gerar PDF" />
+                <div className={styles.botoesForm}>
+
+                    {/* botão para ir adicionando os conteúdos */}
+                    <button type="button" onClick={() => append({ textoPdf: '', imgPdf: null })}>
+                        Adicionar texto e imagem
+                    </button>
+
+                    <input type="submit" value="Gerar PDF" />
+                </div>
             </form>
 
             {/* aqui faço uma condição (se o array pdfDados tiver mais que um objeto) */}
             {pdfDados.length > 0 && (
-                <PDFDownloadLink
-                    document={<EstruturaPdf conteudo={pdfDados} />}
-                    fileName="pdfDinamico.pdf"
-                >
-                    {({ loading }) => (loading ? 'Carregando PDF...' : 'Baixar PDF')}
-                </PDFDownloadLink>
+               <div ref={visualizarPdf}>
+                    <h2>Visualizar PDF</h2>
+                    <div className={styles.downloadLink}>
+                        <PDFDownloadLink
+                            document={<EstruturaPdf conteudo={pdfDados} />}
+                            fileName="pdfDinamico.pdf"
+                        >
+                            {({ loading }) => (loading ? (
+                                <Spin />
+                            ) : <Button type="primary" className={styles.botaoPdf}>Baixar PDF</Button>)}
+                        </PDFDownloadLink>
+                    </div>
+
+                    <div className={styles.pdfContainer}>
+                        <PDFViewer width="100%" height="600">
+                            <EstruturaPdf conteudo={pdfDados} />
+                        </PDFViewer>
+                    </div>
+                </div>
             )}
         </div>
     );
