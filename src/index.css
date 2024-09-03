@@ -23,12 +23,16 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 	box-sizing: border-box;
-	-webkit-font-smoothing: antialiased; /* Para WebKit (Chrome, Safari) */
-	-moz-osx-font-smoothing: grayscale;  /* Para Firefox no macOS */
+	-webkit-font-smoothing: antialiased; 
+	-moz-osx-font-smoothing: grayscale;  
 	font-smooth: always;     
 	text-rendering: optimizeLegibility;
 	text-decoration: none;
 	list-style: none;
+	font-family: "Montserrat", sans-serif;
+  	font-optical-sizing: auto;
+	font-weight: 600;
+  	font-style: normal;
 
 }
 /* HTML5 display-role reset for older browsers */
