@@ -16,7 +16,7 @@ import EstruturaPdf from '../../components/EstruturaPdf/EstruturaPdf';
 
 const GeradorPdf = () => {
 
-    const { register, handleSubmit, control, formState: { errors } } = useForm({
+    const { register, handleSubmit, control,reset, formState: { errors } } = useForm({
         defaultValues: {
             conteudo:[
                 { textoPdf: '', imgPdf: null } // já inicio os valores vazios
@@ -118,6 +118,7 @@ const GeradorPdf = () => {
             
         } finally {
             setLoading(false)
+            reset()
         }
     };
 
