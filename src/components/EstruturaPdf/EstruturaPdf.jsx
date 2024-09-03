@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 const PaginaComTexto = ({ textos }) => (
     <Page style={styles.page}>
         <View style={styles.header}>
-            <Text>PDF dinâmico</Text>
+            <Text>dynamic PDF</Text>
             <Text>Teste técnico desen. Junior</Text>
         </View>
         <View style={styles.content}>
@@ -53,7 +53,7 @@ const PaginaComTexto = ({ textos }) => (
 const PaginaComImagem = ({ imagem }) => (
     <Page style={styles.page}>
         <View style={styles.header}>
-            <Text>PDF dinâmico</Text>
+            <Text>dynamic PDF</Text>
             <Text>Teste técnico desen. Junior</Text>
         </View>
         <View style={styles.content}>

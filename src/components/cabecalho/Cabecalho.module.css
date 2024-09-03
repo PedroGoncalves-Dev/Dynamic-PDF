@@ -20,6 +20,7 @@
 }
 .cabecalho div h1 span {
     color:  rgb(1, 87, 34) ;
+    text-transform: uppercase;
 }
 
 .cabecalho div h2 {

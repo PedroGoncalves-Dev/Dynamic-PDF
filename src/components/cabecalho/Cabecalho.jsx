@@ -12,11 +12,11 @@ const Cabecalho = () => {
 
                 <Link to='/'>
 
-                    <h1>PDF <span>dinâmico</span></h1>
+                    <h1>dynamic <span>pdf</span></h1>
                 
                 </Link>
                 
-                <h2>Teste tecnico Desenvolvedor junior</h2>
+                <h2>Teste técnico Desenvolvedor junior</h2>
 
                 <nav>
                     <ul>
