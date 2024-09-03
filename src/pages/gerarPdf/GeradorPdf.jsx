@@ -123,8 +123,10 @@ const GeradorPdf = () => {
 
             {/* aqui faço uma condição (se o array pdfDados tiver mais que um objeto) */}
             {pdfDados.length > 0 && (
-               <div ref={visualizarPdf}>
+               <div ref={visualizarPdf} className={styles.containerPdf}>
+
                     <h2>Visualizar PDF</h2>
+
                     <div className={styles.downloadLink}>
                         <PDFDownloadLink
                             document={<EstruturaPdf conteudo={pdfDados} />}
@@ -136,11 +138,12 @@ const GeradorPdf = () => {
                         </PDFDownloadLink>
                     </div>
 
-                    <div className={styles.pdfContainer}>
+                    <div className={styles.pdf}>
                         <PDFViewer width="100%" height="600">
                             <EstruturaPdf conteudo={pdfDados} />
                         </PDFViewer>
                     </div>
+
                 </div>
             )}
         </div>

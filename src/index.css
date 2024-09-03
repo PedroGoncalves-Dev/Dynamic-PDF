@@ -27,6 +27,8 @@ time, mark, audio, video {
 	-moz-osx-font-smoothing: grayscale;  /* Para Firefox no macOS */
 	font-smooth: always;     
 	text-rendering: optimizeLegibility;
+	text-decoration: none;
+	list-style: none;
 
 }
 /* HTML5 display-role reset for older browsers */
